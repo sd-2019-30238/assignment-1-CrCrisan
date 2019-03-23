@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-# Create your views here.
+from . import models
 
 def bookList(request):
-    return render(request, 'Books/BooksList.html')
+    books = models.Book.objects.all().order_by('title')
+    return render(request, 'Books/BooksList.html', {'books' : books})

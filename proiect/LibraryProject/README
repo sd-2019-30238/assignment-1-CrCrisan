@@ -1,1 +1,4 @@
 python manage.py runserver
+
+superuser   id : superuser
+            password : admin1234
