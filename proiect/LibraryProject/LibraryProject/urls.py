@@ -8,7 +8,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.homePage),
-    path('books', include('Books.urls'))
+    path('books', include('Books.urls'), name = "Books"),
+    path('accounts/', include('Accounts.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
