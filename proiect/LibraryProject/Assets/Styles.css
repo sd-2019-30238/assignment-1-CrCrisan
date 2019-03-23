@@ -1,0 +1,16 @@
+body{
+    background-color: #54a823;
+    background-image: url(book.png);
+    background-repeat: no-repeat;
+    background-size: 1000px 600px;
+    color: #000000;
+}
+
+body *{
+    font-family: Ubuntu;
+}
+
+h1, h2, h3, h4, h5{
+    font-weight: normal;
+    margin: 0;
+}
