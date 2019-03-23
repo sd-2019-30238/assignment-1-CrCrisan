@@ -9,6 +9,16 @@
 </head>
 <body>
     <div class = "wrapper">
+        <nav>
+            <ul>
+                <li>
+                    <form class="logut-link" action="{% url 'accounts:logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>    
         {% block content %}
         {% endblock %}
     </div>
