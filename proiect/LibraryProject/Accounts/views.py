@@ -21,7 +21,10 @@ def loginView(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("Book:list")
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:
+                return redirect("Book:list")
     else:
         form = AuthenticationForm()
     return render(request, 'Accounts/Login.html', {'form':form})
