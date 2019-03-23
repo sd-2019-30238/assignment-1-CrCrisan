@@ -5,7 +5,7 @@
     <div class = "BookList">
         {% for book in books %}
             <div class = "Book">
-                <H2>{{book.title}}</H2>
+                <H2> <a href = "{% url 'Book:details' slug=book.slug %}">{{book.title}}</a></H2>
                 <p>Author : {{book.author}}</p>
                 <p>Genre : {{book.genre}}</p>
                 <p>Release Date : {{book.releaseDate}}</p>
