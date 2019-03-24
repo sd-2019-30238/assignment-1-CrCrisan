@@ -16,9 +16,13 @@
                         {% csrf_token %}
                         <button type="submit">Home</button>
                     </form>
-                    <form class="logut-link" action="{% url 'accounts:logout' %}" method="post">
+                    <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                         {% csrf_token %}
                         <button type="submit">Logout</button>
+                    </form>
+                    <form class="booklist-link" action="{% url 'BookLoan:loanList' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">My List</button>
                     </form>
                 {%else%}
                     <form class="login-link" action="{% url 'accounts:login' %}">

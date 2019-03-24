@@ -1,0 +1,22 @@
+{% extends 'BaseLayout.html'%}
+
+{% block content %}
+    <h1>Book in my list</h1>
+    <div class = "LoanList">
+        {% for loan in loans %}
+            <div class = "Book">
+                <p>Book : {{loan.book}}</p>
+                {% if loan.status == 'P'%}
+                    <p>Status : Pending</p>
+                {% elif loan.status == 'O' %}
+                    <p>Status : Open</p>
+                {% elif loan.status == 'C' %}
+                    <p>Status : Closed</p>
+                {% else %}
+                    <p>Status : {{loan.status}} </p>
+
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
