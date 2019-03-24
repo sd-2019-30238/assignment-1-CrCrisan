@@ -12,5 +12,8 @@
             <p>Release Date : {{book.releaseDate}}</p>
             <p>Description : {{book.description}}</p>
         </div>
+        <form class="loan-linl" action="{% url 'BookLoan:newLoan' slug=book.slug %}">
+            <button type="submit">Loan this book</button>
+        </form>
     </div>
 {% endblock %}

@@ -5,5 +5,5 @@ from . import views
 app_name = 'BookLoan'
 
 urlpatterns = [
-    path('', views.newLoan, name = 'newLoan'),
+    path('<str:slug>/', views.newLoan, name = 'newLoan'),
 ]
