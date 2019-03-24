@@ -4,9 +4,18 @@ from .models import Book
 from django.contrib.auth.decorators import login_required
 from . import forms
 
+BOOK_FILTERS = ['title', 'releaseDate', 'genre', 'author']
+
 def bookList(request):
-    books = Book.objects.all().order_by('title')
-    return render(request, 'Books/BooksList.html', {'books' : books})
+    if request.method == 'POST':
+        ordBy = request.POST['OrdSelector']
+        ord = request.POST.get('selectOrd', False) 
+        if ord == "descending":
+            ordBy = "-"+ordBy
+        books = Book.objects.all().order_by(ordBy)
+    else:
+        books = Book.objects.all()
+    return render(request, 'Books/BooksList.html', {'books' : books, 'filters' : BOOK_FILTERS})
 
 def bookDetail(request, slug):
     book = Book.objects.get(slug = slug)

@@ -2,6 +2,23 @@
 
 {% block content %}
     <h1>Book List</h1>
+
+    <form class="order-link" action="{% url 'Book:list' %}" method="post">
+        <div class = "OrdButton"> Order By
+            <select name = "OrdSelector">
+                {% for filter in filters %}
+                    <option value="{{filter}}">{{filter}}</option>
+                {% endfor %}
+            </select>
+            <select name = "selectOrd">
+                <option value = "ascending">Ascending</option>
+                <option value = "descending">Descending</option>
+            </select>
+        </div>
+        {% csrf_token %}
+        <input type="submit" value="Select">
+    </form>
+
     <div class = "BookList">
         {% for book in books %}
             <div class = "Book">
