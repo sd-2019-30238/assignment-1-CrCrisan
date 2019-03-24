@@ -12,19 +12,21 @@
         <nav>
             <ul>
                 {% if user.is_authenticated%}
-                    <li>
-                        <form class="home-link" action="{% url 'Book:list' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit">Home</button>
-                        </form>
-                        <form class="logut-link" action="{% url 'accounts:logout' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit">Logout</button>
-                        </form>
-                    </li>
+                    <form class="home-link" action="{% url 'Book:list' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Home</button>
+                    </form>
+                    <form class="logut-link" action="{% url 'accounts:logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
                 {%else%}
-                    <li><a href="{% url 'accounts:login' %}">Login</a></li>
-                    <li><a href="{% url 'accounts:signup' %}">Sigup</a></li>
+                    <form class="login-link" action="{% url 'accounts:login' %}">
+                        <button type="submit">Login</button>
+                    </form>
+                    <form class="login-link" action="{% url 'accounts:signup' %}">
+                        <button type="submit">Sigup</button>
+                    </form>
                 {% endif %}
             </ul>
         </nav>    
