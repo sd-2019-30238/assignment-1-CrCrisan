@@ -8,11 +8,14 @@ BOOK_FILTERS = ['title', 'releaseDate', 'genre', 'author']
 
 def bookList(request):
     if request.method == 'POST':
-        ordBy = request.POST['OrdSelector']
-        ord = request.POST.get('selectOrd', False) 
-        if ord == "descending":
-            ordBy = "-"+ordBy
-        books = Book.objects.all().order_by(ordBy)
+        try:
+            ordBy = request.POST['OrdSelector']
+            ord = request.POST.get('selectOrd', False) 
+            if ord == "descending":
+                ordBy = "-"+ordBy
+            books = Book.objects.all().order_by(ordBy)
+        except:
+            books = Book.objects.all()
     else:
         books = Book.objects.all()
     return render(request, 'Books/BooksList.html', {'books' : books, 'filters' : BOOK_FILTERS})
