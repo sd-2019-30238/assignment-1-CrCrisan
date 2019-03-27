@@ -22,7 +22,7 @@ def newLoan(request, slug):
 
 @login_required()
 def myBookList(request):
-    loans = BookLoan.objects.filter(person = request.user)
+    loans = BookLoan.objects.filter(person = request.user).order_by('-date')
     return render(request, 'BookLoan/BookLoanList.html', {'loans':loans})
 
 def isEmployee(user):
@@ -48,5 +48,5 @@ def EditLoan(request, loanId):
 @login_required()
 @user_passes_test(isEmployee)
 def AllLoans(request):
-    loans = BookLoan.objects.all()
+    loans = BookLoan.objects.all().order_by('-date')
     return render(request, 'BookLoan/AllLoans.html', {'loans' : loans})
