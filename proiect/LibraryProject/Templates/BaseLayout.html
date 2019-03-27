@@ -28,6 +28,10 @@
                         {% csrf_token %}
                         <button type="submit">Add Book</button>
                     </form>
+                    <form class="all-loans" action="{% url 'BookLoan:allLoans'%}">
+                        {% csrf_token %}
+                        <button type="submit">Loans list</button>
+                    </form>
                 {%else%}
                     <form class="login-link" action="{% url 'accounts:login' %}">
                         <button type="submit">Login</button>
