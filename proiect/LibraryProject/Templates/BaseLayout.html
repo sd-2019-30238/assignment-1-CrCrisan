@@ -11,7 +11,7 @@
     <div class = "wrapper">
         <nav>
             <ul>
-                {% if user.is_authenticated%}
+                {% if user.is_authenticated %}
                     <form class="home-link" action="{% url 'Book:list' %}" method="post">
                         {% csrf_token %}
                         <button type="submit">Home</button>
@@ -23,6 +23,10 @@
                     <form class="booklist-link" action="{% url 'BookLoan:loanList' %}" method="post">
                         {% csrf_token %}
                         <button type="submit">My List</button>
+                    </form>
+                    <form class="add-book" action="{% url 'Book:add-book'%}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Add Book</button>
                     </form>
                 {%else%}
                     <form class="login-link" action="{% url 'accounts:login' %}">
