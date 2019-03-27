@@ -5,7 +5,8 @@ from Books import models as BookModule
 
 class BookLoan(models.Model):
     LOAN_STATUS = (
-        ('P', 'Pending'),
+        ('P', 'Pending Approval'),
+        ('A', 'Approved'),
         ('O', 'Open'),
         ('C', 'Closed'),
     )

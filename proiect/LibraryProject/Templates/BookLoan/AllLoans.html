@@ -1,0 +1,15 @@
+{% extends 'BaseLayout.html'%}
+
+{% block content %}
+    <h1>Loans list</h1>
+    <div class = "LoanList">
+        {% for loan in loans %}
+            <div class = "Book">
+                <h2><a href = "{% url 'BookLoan:editLoan' loanId=loan.id %}">Id : {{loan.id}}</a></h2>
+                <p>Book : {{loan.book}}</p>
+                <p>User : {{loan.person}}</p>
+                <p>Status : {{loan.status}}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'BaseLayout.html'%}
+
+{% block content %}
+    <div class = "Loan">
+        <h2>Id : {{loan.id}}</h2>
+        <p>Book : {{loan.book}}</p>
+        <p>User : {{loan.person}}</p>
+        <p>Status : {{loan.status}}</p>
+        {% if loanStatus == 'P' %}
+            <form class="aprove-book" action="{% url 'BookLoan:editLoan' loanId=loan.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Aprove Loan</button>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}
