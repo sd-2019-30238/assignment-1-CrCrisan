@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from Books.models import Book
 from . import forms
 from .models import BookLoan
-from .misc import ReturnCallBack
+from .misc import ReturnCallBack, AproveCallBack
 
 # Create your views here.
 
@@ -33,13 +33,8 @@ def isEmployee(user):
 @user_passes_test(isEmployee)
 def EditLoan(request, loanId):
     if request.method == 'POST':
+        AproveCallBack(loanId)
         loans = BookLoan.objects.get(id = loanId)
-        loans.status = 'A'
-        loans.save()
-        id = loans.book.id
-        book = Book.objects.get(id = id)
-        book.inStock = False
-        book.save()
         return render(request, 'BookLoan/EditLoan.html', {'loan' : loans})
     else:
         loans = BookLoan.objects.get(id = loanId)

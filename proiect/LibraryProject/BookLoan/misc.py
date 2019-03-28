@@ -16,4 +16,12 @@ def ReturnCallBack(loanId):
         pendingLoan.status = 'O'
         pendingLoan.save()
 
-    
+def AproveCallBack(loanId):
+    loan = BookLoan.objects.get(id = loanId)
+    loan.status = 'A'
+    book = loan.book
+    if book.inStock == True :
+        book.inStock = False
+        book.save()
+        loan.status = 'O'
+    loan.save()
