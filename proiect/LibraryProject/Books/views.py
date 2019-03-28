@@ -18,7 +18,8 @@ def bookList(request):
             books = Book.objects.all()
     else:
         books = Book.objects.all()
-    return render(request, 'Books/BooksList.html', {'books' : books, 'filters' : BOOK_FILTERS})
+    bestBook = Book.objects.all().order_by("-nrOfDownloads").first()
+    return render(request, 'Books/BooksList.html', {'books' : books, 'filters' : BOOK_FILTERS, 'bestBook' : bestBook})
 
 def bookDetail(request, slug):
     book = Book.objects.get(slug = slug)

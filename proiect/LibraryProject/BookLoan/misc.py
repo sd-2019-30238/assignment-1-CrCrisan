@@ -25,3 +25,9 @@ def AproveCallBack(loanId):
         book.save()
         loan.status = 'O'
     loan.save()
+
+def LoanCallBack(loanId):
+    loan = BookLoan.objects.get(id = loanId)
+    book = loan.book
+    book.nrOfDownloads += 1
+    book.save()

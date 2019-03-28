@@ -19,7 +19,17 @@
         <input type="submit" value="Select">
     </form>
 
+    <div class = "BestBook">
+            <H1>Best Book</H1>
+            <H2> <a href = "{% url 'Book:details' slug=bestBook.slug %}">{{bestBook.title}}</a></H2>
+                    <p>Author : {{bestBook.author}}</p>
+                    <p>Genre : {{bestBook.genre}}</p>
+                    <p>Release Date : {{bestBook.releaseDate}}</p>
+                    <p>Short Description : {{bestBook.getShortDescription}}</p>
+        </div>
+
     <div class = "BookList">
+        <H1>All Books</H1>
         {% for book in books %}
             <div class = "Book">
                 <H2> <a href = "{% url 'Book:details' slug=book.slug %}">{{book.title}}</a></H2>

@@ -3,20 +3,20 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from Books.models import Book
 from . import forms
 from .models import BookLoan
-from .misc import ReturnCallBack, AproveCallBack
+from .misc import ReturnCallBack, AproveCallBack, LoanCallBack
 
 # Create your views here.
 
 @login_required()
 def newLoan(request, slug):
     book = Book.objects.get(slug = slug)
-
     if request.method == 'POST':
         form = forms.AddLoan()
         instance = form.save(commit = False)
         instance.person = request.user
         instance.book = book
         instance.save()
+        LoanCallBack(instance.id)
         return redirect("Book:list")
     else:
         return render(request, 'BookLoan/BookLoan.html', {'book' : book})
