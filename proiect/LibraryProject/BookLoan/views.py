@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from Books.models import Book
 from . import forms
 from .models import BookLoan
+from .misc import ReturnCallBack
 
 # Create your views here.
 
@@ -50,3 +51,8 @@ def EditLoan(request, loanId):
 def AllLoans(request):
     loans = BookLoan.objects.all().order_by('-date')
     return render(request, 'BookLoan/AllLoans.html', {'loans' : loans})
+
+@login_required()
+def ReturnBook(request, loanId):
+    ReturnCallBack(loanId)
+    return redirect("Book:list")
