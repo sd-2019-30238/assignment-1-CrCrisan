@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from .models import Book
 from django.contrib.auth.decorators import login_required, user_passes_test
 from . import forms
-
+from .misc import factory
+from random import randint
 BOOK_FILTERS = ['title', 'releaseDate', 'genre', 'author']
 
 def bookList(request):
@@ -18,7 +19,13 @@ def bookList(request):
             books = Book.objects.all()
     else:
         books = Book.objects.all()
-    bestBook = Book.objects.all().order_by("-nrOfDownloads").first()
+    i = randint(0, 1)
+    if i == 0:
+        rec = factory().getObj("nrOfDownloads")
+    else:
+        rec = factory().getObj("releaseDate")
+
+    bestBook = rec.getBestBook()
     return render(request, 'Books/BooksList.html', {'books' : books, 'filters' : BOOK_FILTERS, 'bestBook' : bestBook})
 
 def bookDetail(request, slug):
