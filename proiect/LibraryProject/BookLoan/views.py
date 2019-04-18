@@ -3,9 +3,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from Books.models import Book
 from . import forms
 from .models import BookLoan
-from .misc import ReturnCallBack, AproveCallBack, LoanCallBack
+from .misc import ReturnCallBack, AproveCallBack, LoanCallBack, Observer
 
 # Create your views here.
+gObs = Observer()
+
 
 @login_required()
 def newLoan(request, slug):
@@ -17,6 +19,7 @@ def newLoan(request, slug):
         instance.book = book
         instance.save()
         LoanCallBack(instance.id)
+        gObs.attach(instance)
         return redirect("Book:list")
     else:
         return render(request, 'BookLoan/BookLoan.html', {'book' : book})
@@ -49,5 +52,7 @@ def AllLoans(request):
 
 @login_required()
 def ReturnBook(request, loanId):
+    obj = BookLoan.objects.get(id = loanId)
     ReturnCallBack(loanId)
+    gObs.Notify(obj.book)
     return redirect("Book:list")
