@@ -1,5 +1,20 @@
 from Books.models import Book
 from BookLoan.models import BookLoan
+from .models import BookLoan
+
+class LoanQueryService:
+    def getLoanByPersonOrder(self, p, order):
+        return BookLoan.objects.filter(person = p).order_by(order)
+
+    def getLoan(self, lId):
+        return BookLoan.objects.get(id = lId)
+    
+    def getLoans(self, order):
+        return BookLoan.objects.all().order_by(order)
+
+class LoanCommandService:
+    def addLoan(self, loanInstance):
+        loanInstance.save()
 
 class Observer:
     def __init__(self):

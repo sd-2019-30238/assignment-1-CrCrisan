@@ -1,5 +1,19 @@
 from .models import Book
 
+class BookQueryService:
+    def getBook(self, tag):
+        return Book.objects.get(slug = tag)
+    
+    def getBooks(self):
+        return Book.objects.all()
+
+    def getBooksOrd(self, ord):
+        return Book.objects.all().order_by(ordBy)
+
+class BookCommandService:
+    def addBook(self, bookInstance):
+        bookInstance.save()
+
 class nrOfDownloads:
     def getBestBook(self):
         return Book.objects.all().order_by("-nrOfDownloads").first()
