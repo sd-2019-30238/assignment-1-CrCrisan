@@ -35,6 +35,10 @@ class Observer:
             if observer.book == arg:
                 observer.Update(arg)
 
+def CheckDeal(cupon):
+    #toDo
+    pass
+
 def ReturnCallBack(loanId):
     loan = BookLoan.objects.get(id = loanId)
     book = loan.book

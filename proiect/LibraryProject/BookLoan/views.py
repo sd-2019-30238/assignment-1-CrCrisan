@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from Books.models import Book
 from . import forms
 from .models import BookLoan
-from .misc import ReturnCallBack, AproveCallBack, LoanCallBack, Observer, LoanQueryService, LoanCommandService
+from .misc import ReturnCallBack, AproveCallBack, LoanCallBack, Observer, LoanQueryService, LoanCommandService, CheckDeal
 
 # Create your views here.
 gObs = Observer()
@@ -14,6 +14,8 @@ gLoanCommand = LoanCommandService()
 def newLoan(request, slug):
     book = Book.objects.get(slug = slug)
     if request.method == 'POST':
+        cupon = request.POST.get("Coupon", False)
+        CheckDeal(cupon)
         form = forms.AddLoan()
         instance = form.save(commit = False)
         instance.person = request.user

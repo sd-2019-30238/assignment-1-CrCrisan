@@ -2,9 +2,10 @@
 
 {% block content %}
     <h1>Book Loan</h1>
+    <h2>Add coupon<input type="text" name="name" required></h2>
+    {{book}}
     <form class="site-form" action="{%url 'BookLoan:newLoan' slug=book.slug %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{book}}
         <input type="submit" value="Submit">
     </form>
     <form class="back-linl" action="{% url 'Book:details' slug=book.slug %}">
