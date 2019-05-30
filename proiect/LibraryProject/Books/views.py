@@ -3,28 +3,28 @@ from django.http import HttpResponse
 from .models import Book
 from django.contrib.auth.decorators import login_required, user_passes_test
 from . import forms
+from Books.misc import *
+
+mediator = Mediator()
 
 BOOK_FILTERS = ['title', 'releaseDate', 'genre', 'author']
 
 def bookList(request):
     if request.method == 'POST':
         try:
-            ordBy = request.POST['OrdSelector']
-            ord = request.POST.get('selectOrd', False) 
-            if ord == "descending":
-                ordBy = "-"+ordBy
-            books = Book.objects.all().order_by(ordBy)
+            req = RequestAllBooks(reques, request.POST['OrdSelector'], request.POST.get('selectOrd', False))
+            return mediator.mediate(req)
         except:
-            books = Book.objects.all()
+            req = RequestAllBooks(request, None, None)
+            return mediator.mediate(req)
     else:
-        books = Book.objects.all()
-    bestBook = Book.objects.all().order_by("-nrOfDownloads").first()
-    return render(request, 'Books/BooksList.html', {'books' : books, 'filters' : BOOK_FILTERS, 'bestBook' : bestBook})
+        req = RequestAllBooks(request, None, None)
+        return mediator.mediate(req)
 
 def bookDetail(request, slug):
-    book = Book.objects.get(slug = slug)
-    return render(request, 'Books/BookDetail.html', {'book' : book})
-
+    req = RequestSpecificBook(request, slug)
+    return mediator.mediate(req)
+    
 def isEmployee(user):
     return user.groups.filter(name = 'Employees').exists()
 
@@ -32,12 +32,8 @@ def isEmployee(user):
 @user_passes_test(isEmployee)
 def addBook(request):
     if request.method == 'POST':
-        form = forms.AddBook(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('Book:list')
-        else:
-            return render(request, 'Books/AddBook.html', {'form':form})
+        req = AddBookM(request)
+        return mediator.mediate(req)
     else:
-        form = forms.AddBook()
-    return render(request, 'Books/AddBook.html', {'form':form})
+        req = AddBookE(request)
+        return mediator.mediate(req)

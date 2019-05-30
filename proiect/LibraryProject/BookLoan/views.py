@@ -4,27 +4,23 @@ from Books.models import Book
 from . import forms
 from .models import BookLoan
 from .misc import ReturnCallBack, AproveCallBack, LoanCallBack
+from Books.misc import *
 
-# Create your views here.
+mediator = Mediator()
 
 @login_required()
 def newLoan(request, slug):
-    book = Book.objects.get(slug = slug)
     if request.method == 'POST':
-        form = forms.AddLoan()
-        instance = form.save(commit = False)
-        instance.person = request.user
-        instance.book = book
-        instance.save()
-        LoanCallBack(instance.id)
-        return redirect("Book:list")
+        req = AddLoan(request, request.user, slug)
+        return mediator.mediate(req)
     else:
-        return render(request, 'BookLoan/BookLoan.html', {'book' : book})
+        req = RequestLoan(request, slug)
+        return mediator.mediate(req)
 
 @login_required()
 def myBookList(request):
-    loans = BookLoan.objects.filter(person = request.user).order_by('-date')
-    return render(request, 'BookLoan/BookLoanList.html', {'loans':loans})
+    req = RequestUserLoans(request, request.user, '-date')
+    return mediator.mediate(req)
 
 def isEmployee(user):
     return user.groups.filter(name = 'Employees').exists()
@@ -33,19 +29,17 @@ def isEmployee(user):
 @user_passes_test(isEmployee)
 def EditLoan(request, loanId):
     if request.method == 'POST':
-        AproveCallBack(loanId)
-        loans = BookLoan.objects.get(id = loanId)
-        return render(request, 'BookLoan/EditLoan.html', {'loan' : loans})
+        req = RequestSpecificLoan(request, loanId)
+        return mediator.mediate(req)
     else:
-        loans = BookLoan.objects.get(id = loanId)
-        loanStatus = loans.status
-        return render(request, 'BookLoan/EditLoan.html', {'loan' : loans, 'loanStatus' : loanStatus})
+        req = RequestSpecificLoanE(request, loanId)
+        return mediator.mediate(req)
 
 @login_required()
 @user_passes_test(isEmployee)
 def AllLoans(request):
-    loans = BookLoan.objects.all().order_by('-date')
-    return render(request, 'BookLoan/AllLoans.html', {'loans' : loans})
+    req = RequestAllLoans(request, '-date')
+    return mediator.mediate(req)
 
 @login_required()
 def ReturnBook(request, loanId):

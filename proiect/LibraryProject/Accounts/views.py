@@ -1,30 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
-
+from Books.misc import *
 # Create your views here.
+
+mediator = Mediator()
 
 def signupView(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect("Book:list")
+        req = Singup(request)
+        return mediator.mediate(req)
     else:
         form = UserCreationForm()
-    return render(request, 'Accounts/Signup.html', {'form':form})
+        return render(request, 'Accounts/Signup.html', {'form':form})
 
 def loginView(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data = request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            if 'next' in request.POST:
-                return redirect(request.POST.get('next'))
-            else:
-                return redirect("Book:list")
+        req = Login(request)
+        return mediator.mediate(req)
     else:
         form = AuthenticationForm()
     return render(request, 'Accounts/Login.html', {'form':form})
